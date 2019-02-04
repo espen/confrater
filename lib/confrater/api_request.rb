@@ -1,4 +1,4 @@
-module Confrere
+module Confrater
   class APIRequest
 
     def initialize(builder: nil)
@@ -186,7 +186,7 @@ module Confrere
       username = self.username
       password = self.password
       unless username && password
-        raise Confrere::ConfrereError, "You must set credentials prior to making a call"
+        raise Confrater::ConfrereError, "You must set credentials prior to making a call"
       end
     end
 

@@ -1,4 +1,4 @@
-module Confrere
+module Confrater
   class Response
     attr_accessor :body, :headers
 

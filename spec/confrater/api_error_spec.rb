@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe Confrere::APIError do
+describe Confrater::APIError do
   let(:message) { 'Foo' }
   let(:params) do
     {
@@ -13,7 +13,7 @@ describe Confrere::APIError do
   end
 
   before do
-    @confrere = Confrere::APIError.new(message, params)
+    @confrere = Confrater::APIError.new(message, params)
   end
 
   it "adds the error params to the error message" do

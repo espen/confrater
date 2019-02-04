@@ -1,3 +1,3 @@
-module Confrere
+module Confrater
   class ConfrereError < StandardError; end
 end

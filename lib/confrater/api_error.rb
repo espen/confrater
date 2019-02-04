@@ -1,4 +1,4 @@
-module Confrere
+module Confrater
   class APIError < StandardError
     attr_reader :title, :detail, :body, :raw_body, :status_code
 

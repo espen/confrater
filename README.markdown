@@ -4,7 +4,7 @@ Confrere is an API wrapper for the [Confrere API](https://developer.confrere.com
 
 ## Important Notes
 
-Confrere returns a `Confrere::Response` instead of the response body directly. `Confrere::Response` exposes the parsed response `body` and `headers`.
+Confrere returns a `Confrater::Response` instead of the response body directly. `Confrater::Response` exposes the parsed response `body` and `headers`.
 
 ## Installation
 
@@ -16,10 +16,10 @@ The Confrere API authenticates using username and password which you can retriev
 
 ## Usage
 
-First, create a *one-time use instance* of `Confrere::Request`:
+First, create a *one-time use instance* of `Confrater::Request`:
 
 ```ruby
-confrere = Confrere::Request.new(username: "your client id", password: "your secret")
+confrere = Confrater::Request.new(username: "your client id", password: "your secret")
 ```
 
 ***Note*** Only reuse instances of Confrere after terminating a call with a verb, which makes a request. Requests are light weight objects that update an internal path based on your call chain. When you terminate a call chain with a verb, a request instance makes a request and resets the path.
@@ -47,12 +47,12 @@ Of course, `body` is only supported on `create` and `update` calls. Those map to
 You can set `username`, `password`, `api_endpoint`, `timeout`, `open_timeout`, `faraday_adapter`, `proxy`, `symbolize_keys`, `logger`, and `debug` globally:
 
 ```ruby
-Confrere::Request.username = "your_client_id"
-Confrere::Request.password = "your_secret"
-Confrere::Request.timeout = 15
-Confrere::Request.open_timeout = 15
-Confrere::Request.symbolize_keys = true
-Confrere::Request.debug = false
+Confrater::Request.username = "your_client_id"
+Confrater::Request.password = "your_secret"
+Confrater::Request.timeout = 15
+Confrater::Request.open_timeout = 15
+Confrater::Request.symbolize_keys = true
+Confrater::Request.debug = false
 ```
 
 For example, you could set the values above in an `initializer` file in your `Rails` app (e.g. your\_app/config/initializers/confrere.rb).
@@ -60,7 +60,7 @@ For example, you could set the values above in an `initializer` file in your `Ra
 Assuming you've set the credentials on Confrere, you can conveniently make API calls on the class itself:
 
 ```ruby
-Confrere::Request.users.retrieve
+Confrater::Request.users.retrieve
 ```
 
 ***Note*** Substitute an underscore if a resource name contains a hyphen.
@@ -68,7 +68,7 @@ Confrere::Request.users.retrieve
 Pass `symbolize_keys: true` to use symbols (instead of strings) as hash keys in API responses.
 
 ```ruby
-confrere = Confrere::Request.new(username: "your_client_id", password: "your_secret", symbolize_keys: true)
+confrere = Confrater::Request.new(username: "your_client_id", password: "your_secret", symbolize_keys: true)
 ```
 
 Confrere's [API documentation](https://developer.confrere.com/reference) is a list of available endpoints.
@@ -78,7 +78,7 @@ Confrere's [API documentation](https://developer.confrere.com/reference) is a li
 Pass `debug: true` to enable debug logging to STDOUT.
 
 ```ruby
-confrere = Confrere::Request.new(username: "your_client_id", password: "your_secret", debug: true)
+confrere = Confrater::Request.new(username: "your_client_id", password: "your_secret", debug: true)
 ```
 
 ### Custom logger
@@ -86,13 +86,13 @@ confrere = Confrere::Request.new(username: "your_client_id", password: "your_sec
 Ruby `Logger.new` is used by default, but it can be overrided using:
 
 ```ruby
-confrere = Confrere::Request.new(username: "your_client_id", password: "your_secret", debug: true, logger: MyLogger.new)
+confrere = Confrater::Request.new(username: "your_client_id", password: "your_secret", debug: true, logger: MyLogger.new)
 ```
 
 Logger can be also set by globally:
 
 ```ruby
-Confrere::Request.logger = MyLogger.new
+Confrater::Request.logger = MyLogger.new
 ```
 
 ## Examples
@@ -123,13 +123,13 @@ confrere.appointmets.create(body: {"name": "MakePlans"})
 
 Confrere raises an error when the API returns an error.
 
-`Confrere::ConfrereError` has the following attributes: `title`, `detail`, `body`, `raw_body`, `status_code`. Some or all of these may not be
+`Confrater::ConfrereError` has the following attributes: `title`, `detail`, `body`, `raw_body`, `status_code`. Some or all of these may not be
 available depending on the nature of the error. For example:
 
 ```ruby
 begin
   confrere.users.create(body: body)
-rescue Confrere::ConfrereError => e
+rescue Confrater::ConfrereError => e
   puts "Houston, we have a problem: #{e.message} - #{e.raw_body}"
 end
 ```
@@ -145,13 +145,13 @@ confrere.proxy = 'http://your_proxy.com:80'
 You can set a different [Faraday adapter](https://github.com/lostisland/faraday) during initialization:
 
 ```ruby
-confrere = Confrere::Request.new(username: "your_client_id", password: "your_secret", faraday_adapter: :net_http)
+confrere = Confrater::Request.new(username: "your_client_id", password: "your_secret", faraday_adapter: :net_http)
 ```
 
 #### Initialization
 
 ```ruby
-confrere = Confrere::Request.new(username: "your_client_id", password: "your_secret")
+confrere = Confrater::Request.new(username: "your_client_id", password: "your_secret")
 ```
 
 ## Thanks

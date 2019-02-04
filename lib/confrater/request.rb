@@ -1,4 +1,4 @@
-module Confrere
+module Confrater
   class Request
     attr_accessor :username, :password, :api_environment, :api_endpoint, :timeout, :open_timeout, :proxy, :faraday_adapter, :symbolize_keys, :debug, :logger
 
