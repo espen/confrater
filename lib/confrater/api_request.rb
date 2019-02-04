@@ -168,12 +168,22 @@ module Confrater
       parsed_response = nil
 
       if response.body && !response.body.empty?
-        begin
+        if /json/.match(response.headers['content-type'])
+          begin
+            headers = response.headers
+            body = MultiJson.load(response.body, symbolize_keys: symbolize_keys)
+            parsed_response = Response.new(headers: headers, body: body)
+          rescue MultiJson::ParseError
+            error_params = { title: "UNPARSEABLE_RESPONSE", status_code: 500 }
+            error = APIError.new("Unparseable response: #{response.body}", error_params)
+            raise error
+          end
+        elsif /text/.match(response.headers['content-type'])
           headers = response.headers
-          body = MultiJson.load(response.body, symbolize_keys: symbolize_keys)
+          body = response.body
           parsed_response = Response.new(headers: headers, body: body)
-        rescue MultiJson::ParseError
-          error_params = { title: "UNPARSEABLE_RESPONSE", status_code: 500 }
+        else
+          error_params = { title: "UNPARSEABLE_RESPONSE_TYPE", status_code: 500 }
           error = APIError.new("Unparseable response: #{response.body}", error_params)
           raise error
         end
