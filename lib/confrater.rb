@@ -8,6 +8,7 @@ require 'confrater/api_error'
 require 'confrater/request'
 require 'confrater/api_request'
 require 'confrater/response'
+require 'confrater/version'
 
 module Confrater
 end
