@@ -39,7 +39,7 @@ are specified inline and a `CRUD` (`create`, `retrieve`, `update`, or `delete`) 
 You can specify `headers`, `params`, and `body` when calling a `CRUD` method. For example:
 
 ```ruby
-confrere.customers.retrieve(headers: {"SomeHeader": "SomeHeaderValue"}, params: {"query_param": "query_param_value"})
+confrere.users.retrieve(headers: {"SomeHeader": "SomeHeaderValue"}, params: {"query_param": "query_param_value"})
 ```
 
 Of course, `body` is only supported on `create` and `update` calls. Those map to HTTP `POST` and `PUT` verbs respectively.
@@ -60,7 +60,7 @@ For example, you could set the values above in an `initializer` file in your `Ra
 Assuming you've set the credentials on Confrere, you can conveniently make API calls on the class itself:
 
 ```ruby
-Confrere::Request.customers.retrieve
+Confrere::Request.users.retrieve
 ```
 
 ***Note*** Substitute an underscore if a resource name contains a hyphen.
@@ -97,50 +97,26 @@ Confrere::Request.logger = MyLogger.new
 
 ## Examples
 
-### Customers
+### Users
 
-Fetch all customers:
+Fetch all users:
 
 ```ruby
-confrere.customers.retrieve
+confrere.users.retrieve
 ```
 
-By default the Confrere API returns 50 results. To set the count to 50:
+Retrieving a specific user looks like:
 
 ```ruby
-confrere.customers.retrieve(params: {"pagesize": "100"})
+confrere.users(user_id).retrieve
 ```
 
-And to retrieve the next 50 customers:
+### Appointments
+
+Add a new appointment:
 
 ```ruby
-confrere.customers.retrieve(params: {"pagesize": "100", "page": "2"})
-```
-
-Query using filters:
-
-```ruby
-confrere.customers.retrieve(params: {"filter": "contains(Name, ‘MakePlans’)"})
-```
-
-Retrieving a specific customer looks like:
-
-```ruby
-confrere.customers(customer_id).retrieve
-```
-
-Add a new customer:
-
-```ruby
-confrere.customers.create(body: {"Name": "MakePlans AS"})
-```
-
-### Fields
-
-Only retrieve ids and names for fetched customers:
-
-```ruby
-confrere.customers.retrieve(params: {"select": "Id, Name"})
+confrere.appointmets.create(body: {"name": "MakePlans"})
 ```
 
 ### Error handling
@@ -152,7 +128,7 @@ available depending on the nature of the error. For example:
 
 ```ruby
 begin
-  confrere.customers.create(body: body)
+  confrere.users.create(body: body)
 rescue Confrere::ConfrereError => e
   puts "Houston, we have a problem: #{e.message} - #{e.raw_body}"
 end

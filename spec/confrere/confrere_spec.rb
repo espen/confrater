@@ -232,10 +232,10 @@ describe Confrere do
 
   describe "missing methods" do
     it "respond to .method call on class" do
-      expect(Confrere::Request.method(:customers)).to be_a(Method)
+      expect(Confrere::Request.method(:appointmets)).to be_a(Method)
     end
     it "respond to .method call on instance" do
-      expect(Confrere::Request.new.method(:customers)).to be_a(Method)
+      expect(Confrere::Request.new.method(:appointmets)).to be_a(Method)
     end
   end
 end
