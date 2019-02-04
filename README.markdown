@@ -8,7 +8,7 @@ Confrere returns a `Confrere::Response` instead of the response body directly. `
 
 ## Installation
 
-    $ gem install confrere
+    $ gem install confrater
 
 ## Authentication
 
