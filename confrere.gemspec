@@ -3,7 +3,7 @@ $:.push File.expand_path("../lib", __FILE__)
 require 'confrere/version'
 
 Gem::Specification.new do |s|
-  s.name        = "Confrere"
+  s.name        = "confrater"
   s.version     = Confrere::VERSION
   s.authors     = ["Espen Antonsen", "Amro Mousa"]
   s.homepage    = "http://github.com/espen/confrere"
