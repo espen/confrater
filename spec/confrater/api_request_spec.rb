@@ -11,13 +11,13 @@ describe Confrater::APIRequest do
   end
 
   it "surfaces client request exceptions as a Confrater::APIError" do
-    exception = Faraday::Error::ClientError.new("the server responded with status 503")
+    exception = Faraday::ClientError.new("the server responded with status 503")
     stub_request(:get, "#{@api_root}/users").with(basic_auth: [username, password]).to_raise(exception)
     expect { @confrere.users.retrieve }.to raise_error(Confrater::APIError)
   end
 
   it "surfaces an unparseable client request exception as a Confrater::APIError" do
-    exception = Faraday::Error::ClientError.new(
+    exception = Faraday::ClientError.new(
       "the server responded with status 503")
     stub_request(:get, "#{@api_root}/users").with(basic_auth: [username, password]).to_raise(exception)
     expect { @confrere.users.retrieve }.to raise_error(Confrater::APIError)
@@ -25,7 +25,7 @@ describe Confrater::APIRequest do
 
   it "surfaces an unparseable response body as a Confrater::APIError" do
     response_values = {:status => 503, :headers => {}, :body => '[foo]'}
-    exception = Faraday::Error::ClientError.new("the server responded with status 503", response_values)
+    exception = Faraday::ClientError.new("the server responded with status 503", response_values)
     stub_request(:get, "#{@api_root}/users").with(basic_auth: [username, password]).to_raise(exception)
     expect { @confrere.users.retrieve }.to raise_error(Confrater::APIError)
   end
@@ -33,7 +33,7 @@ describe Confrater::APIRequest do
   context "handle_error" do
     it "includes status and raw body even when json can't be parsed" do
       response_values = {:status => 503, :headers => {}, :body => 'A non JSON response'}
-      exception = Faraday::Error::ClientError.new("the server responded with status 503", response_values)
+      exception = Faraday::ClientError.new("the server responded with status 503", response_values)
       api_request = Confrater::APIRequest.new(builder: Confrater::Request)
       begin
         api_request.send :handle_error, exception
@@ -46,7 +46,7 @@ describe Confrater::APIRequest do
     context "when symbolize_keys is true" do
       it "sets title and detail on the error params" do
         response_values = {:status => 422, :headers => {}, :body => '{"title": "foo", "detail": "bar"}'}
-        exception = Faraday::Error::ClientError.new("the server responded with status 422", response_values)
+        exception = Faraday::ClientError.new("the server responded with status 422", response_values)
         api_request = Confrater::APIRequest.new(builder: Confrater::Request.new(symbolize_keys: true))
         begin
           api_request.send :handle_error, exception
