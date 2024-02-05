@@ -153,15 +153,14 @@ module Confrater
     end
 
     def rest_client
-      client = Faraday.new(self.api_url, proxy: self.proxy, ssl: { version: "TLSv1_2" }) do |faraday|
+      Faraday.new(self.api_url, proxy: self.proxy, ssl: { version: "TLSv1_2" }) do |faraday|
         faraday.response :raise_error
         faraday.adapter adapter
         if @request_builder.debug
           faraday.response :logger, @request_builder.logger, bodies: true
         end
+        faraday.request :authorization, :basic, self.username, self.password
       end
-      client.basic_auth self.username, self.password
-      client
     end
 
     def parse_response(response)
